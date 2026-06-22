@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-class config:
+class Config:
     SECRET_KEY=os.getenv('SECRET_KEY', 'dev-secret')
     #Configuracion de la DB
     SQLALCHEMY_DATABASE_URI = (

@@ -1,5 +1,5 @@
 from flask import render_template
-from . import auth_bp
+from . import admin_bp
 
 @admin_bp.route('/admin')
 def login():
@@ -10,10 +10,10 @@ def registro():
     return render_template('admin/registro.html')
 
 @admin_bp.route('/admin/clientes')
-def login():
+def clientes():
     return render_template('admin/login.html')
 
 @admin_bp.route('/admin/pedidos')
-def registro():
-    return render_template('admin/registro.html')
+def pedidos():
+    return render_template('admin/pedidos.html')
     
