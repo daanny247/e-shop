@@ -13,6 +13,9 @@ class Usuario(db.Model):
     activo=db.Column(db.Boolean,default=True)
     creado_en=db.Column(db.DateTime, default=datetime.now())
 
+#Relacion: un usuario tiene muchos pedidos
+pedidos=db.relationship('Pedido', backref='cliente', lazy=True)
+
 #Jamas se guarda las contraseñas en texto plano, se deben guardar encriptadas
 #-- Metodos de Contraseña
 def set_password(self, password_plano):
