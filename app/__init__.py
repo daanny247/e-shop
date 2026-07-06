@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask login import LoginManager
+from flask_login import LoginManager
 from app.config import Config
 
 db = SQLAlchemy()
@@ -25,6 +25,7 @@ def create_app():
     from app.models import Usuario, Categoria, Producto, Pedido, DetallePedido
 
     #User loader: Flask login necesita saber como cargar un usuario por id
+    @login_manager.user_loader
     def load_user(user_id):
         return Usuario.query.get(int(user_id))
         

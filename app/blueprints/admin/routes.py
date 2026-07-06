@@ -1,11 +1,12 @@
 from flask import render_template
 from . import admin_bp
-from flask_login impor login_required
+from flask_login import login_required
 from .decorators import admin_requerido
 
-@admin_bp.route('/admin')
-def login():
-    return render_template('admin/login.html')
+@admin_bp.route('/dashboard')
+@login_required
+def dashboard():
+    return render_template('admin/home.html')
 
 @admin_bp.route('/admin/productos')
 def registro():
