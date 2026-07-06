@@ -12,24 +12,24 @@ class Usuario(db.Model):
     rol=db.Column(db.Enum('cliente', 'admin'), default='cliente')
     activo=db.Column(db.Boolean,default=True)
     creado_en=db.Column(db.DateTime, default=datetime.now())
+    #Relacion: un usuario tiene muchos pedidos
+    pedidos=db.relationship('Pedido', backref='cliente', lazy=True)
 
-#Relacion: un usuario tiene muchos pedidos
-pedidos=db.relationship('Pedido', backref='cliente', lazy=True)
-
-#Jamas se guarda las contraseñas en texto plano, se deben guardar encriptadas
-#-- Metodos de Contraseña
-def set_password(self, password_plano):
-    """Hash a la contraseña en texto plano """
-    self.password=generate_password_hash(password_plano)
-
-
-def check_password(self, passwd):
-    """Compara el texto plano con la contraseña hash"""
-    return check_password_hash(passwd)
+    #Jamas se guarda las contraseñas en texto plano, se deben guardar encriptadas
+    #-- Metodos de Contraseña
+    def set_password(self, password_plano):
+        """Hash a la contraseña en texto plano """
+        self.password = generate_password_hash(password_plano)
 
 
-def es_admin(self):
-    return self.rol == "admin"
+    def check_password(self, passwd):
+        """Compara el texto plano con la contraseña hash"""
+        return check_password_hash(self.password, passwd)
 
-def __repr__(self):
-    return f'<Usuario: {self.email} | {self.rol}>'
+
+    def es_admin(self):
+        return self.rol == "admin"
+
+    def __repr__(self):
+        return f'<Usuario: {self.email} | {self.rol}>'  
+
