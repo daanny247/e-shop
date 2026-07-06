@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask login import LoginManager
 from app.config import Config
 
 db = SQLAlchemy()
 migrate = Migrate()
+login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
@@ -12,9 +14,20 @@ def create_app():
     
     db.init_app(app)
     migrate.init_app(app, db)
+    login_manager.init_app(app)
+
+    #Configuraciones
+    login_manager.login_view='auth.login'
+    login_manager.login_message='Inicia sesion para continuar'
+    login_manager.login_message_category='warning'
 
     #Modelos
-    from app.models import Usuario, Categoria, Producto, Pedido, DetallePedido  
+    from app.models import Usuario, Categoria, Producto, Pedido, DetallePedido
+
+    #User loader: Flask login necesita saber como cargar un usuario por id
+    def load_user(user_id):
+        return Usuario.query.get(int(user_id))
+        
 
     # Blueprints
     from app.blueprints.public import public_bp

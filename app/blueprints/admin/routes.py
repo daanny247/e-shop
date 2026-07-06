@@ -1,5 +1,7 @@
 from flask import render_template
 from . import admin_bp
+from flask_login impor login_required
+from .decorators import admin_requerido
 
 @admin_bp.route('/admin')
 def login():

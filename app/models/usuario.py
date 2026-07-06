@@ -1,8 +1,9 @@
 from app import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
-class Usuario(db.Model):
+class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuarios'
 
     id= db.Column(db.Integer, primary_key=True)
@@ -16,7 +17,7 @@ class Usuario(db.Model):
     pedidos=db.relationship('Pedido', backref='cliente', lazy=True)
 
     #Jamas se guarda las contraseñas en texto plano, se deben guardar encriptadas
-    #-- Metodos de Contraseña
+    #Metodos de Contraseña
     def set_password(self, password_plano):
         """Hash a la contraseña en texto plano """
         self.password = generate_password_hash(password_plano)
