@@ -31,6 +31,11 @@ class Usuario(UserMixin, db.Model):
     def es_admin(self):
         return self.rol == "admin"
 
+    @property
+    def is_active(self):
+        """Sobrescribe UserMixin: una cuenta desactivada no puede iniciar sesión."""
+        return self.activo
+
     def __repr__(self):
         return f'<Usuario: {self.email} | {self.rol}>'  
 
