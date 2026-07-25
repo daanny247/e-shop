@@ -1,3 +1,46 @@
+# Entornos virtuales
 venv/
+.venv/
+env/
+ENV/
+
+# Variables de entorno / secretos
 .env
-__pycache__
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Flask / instancia
+instance/
+.webassets-cache
+
+# Imágenes subidas por usuarios (mantener carpeta con .gitkeep, ignorar contenido subido)
+app/static/img/*
+!app/static/img/.gitkeep
+
+# Bases de datos locales
+*.sqlite3
+*.db
+
+# Logs
+*.log
+
+# Editores / SO / herramientas locales
+.vscode/
+.idea/
+.claude/
+.DS_Store
+Thumbs.db
+
+# Tests / cobertura
+.pytest_cache/
+.coverage
+htmlcov/
