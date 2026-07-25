@@ -1,0 +1,79 @@
+{% extends 'admin/layout.html' %}
+{% block title %}Productos – Admin{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h3 class="mb-0">🧴 Productos</h3>
+  <a href="{{ url_for('admin.producto_nuevo') }}" class="btn btn-primary">+ Nuevo producto</a>
+</div>
+
+<div class="card shadow-sm mb-3">
+  <div class="card-body py-2">
+    <form method="GET" class="d-flex gap-2 align-items-center">
+      <label class="form-label mb-0 me-2">Filtrar por categoría:</label>
+      <select name="categoria" class="form-select w-auto" onchange="this.form.submit()">
+        <option value="">Todas</option>
+        {% for c in categorias %}
+        <option value="{{ c.id }}" {% if categoria_id == c.id %}selected{% endif %}>{{ c.nombre }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    {% if productos %}
+    <table class="table align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Imagen</th>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th class="text-end">Precio</th>
+          <th class="text-end">Stock</th>
+          <th>Estado</th>
+          <th class="text-end">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in productos %}
+        <tr>
+          <td>
+            {% if p.imagen %}
+              <img src="{{ url_for('static', filename='img/' + p.imagen) }}"
+                   style="width:48px; height:48px; object-fit:cover;" class="rounded">
+            {% else %}
+              <span class="text-muted small">Sin imagen</span>
+            {% endif %}
+          </td>
+          <td>{{ p.nombre }}</td>
+          <td>{{ p.categoria.nombre }}</td>
+          <td class="text-end">${{ "%.2f"|format(p.precio) }}</td>
+          <td class="text-end">{{ p.stock }}</td>
+          <td>
+            {% if p.activo %}
+              <span class="badge bg-success">Activo</span>
+            {% else %}
+              <span class="badge bg-secondary">Inactivo</span>
+            {% endif %}
+          </td>
+          <td class="text-end">
+            <a href="{{ url_for('admin.producto_editar', id=p.id) }}"
+               class="btn btn-sm btn-outline-primary">Editar</a>
+            <form method="POST" action="{{ url_for('admin.producto_eliminar', id=p.id) }}" class="d-inline">
+              <button type="submit" class="btn btn-sm btn-outline-{% if p.activo %}danger{% else %}success{% endif %}">
+                {% if p.activo %}Desactivar{% else %}Activar{% endif %}
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="text-muted p-3 mb-0">No hay productos registrados.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
