@@ -5,23 +5,37 @@ app = create_app()
 
 with app.app_context():
     # Categorías
-    cat1 = Categoria(nombre='Electrónica',  descripcion='Dispositivos y gadgets')
-    cat2 = Categoria(nombre='Ropa',         descripcion='Prendas de vestir')
-    cat3 = Categoria(nombre='Hogar',        descripcion='Artículos para el hogar')
-    db.session.add_all([cat1, cat2, cat3])
+    cat_hombre  = Categoria(nombre='Hombre',  descripcion='Fragancias masculinas')
+    cat_mujer   = Categoria(nombre='Mujer',   descripcion='Fragancias femeninas')
+    cat_unisex  = Categoria(nombre='Unisex',  descripcion='Fragancias para todos')
+    db.session.add_all([cat_hombre, cat_mujer, cat_unisex])
     db.session.commit()
 
     # Productos
-    p1 = Producto(nombre='Audífonos Bluetooth', precio=49.99,
-                  stock=20, categoria_id=cat1.id)
-    p2 = Producto(nombre='Camiseta básica',     precio=12.50,
-                  stock=50, categoria_id=cat2.id)
-    p3 = Producto(nombre='Lámpara de escritorio', precio=25.00,
-                  stock=15, categoria_id=cat3.id)
-    db.session.add_all([p1, p2, p3])
+    productos = [
+        Producto(nombre='Noir Intense', descripcion='Eau de parfum amaderada con notas de cuero y vetiver.',
+                  precio=54.99, stock=25, categoria_id=cat_hombre.id),
+        Producto(nombre='Velvet Oud', descripcion='Fragancia intensa con oud, especias y toques ahumados.',
+                  precio=69.90, stock=15, categoria_id=cat_hombre.id),
+        Producto(nombre='Acero Nocturno', descripcion='Notas frescas de bergamota y un fondo especiado.',
+                  precio=42.50, stock=30, categoria_id=cat_hombre.id),
+
+        Producto(nombre='Rosa Blanca', descripcion='Eau de parfum floral con rosa blanca y almizcle suave.',
+                  precio=59.99, stock=20, categoria_id=cat_mujer.id),
+        Producto(nombre='Jazmín Dorado', descripcion='Notas de jazmín, vainilla y un toque de sándalo.',
+                  precio=64.50, stock=18, categoria_id=cat_mujer.id),
+        Producto(nombre='Dulce Peonía', descripcion='Fragancia luminosa de peonía, frutos rojos y almizcle.',
+                  precio=47.00, stock=22, categoria_id=cat_mujer.id),
+
+        Producto(nombre='Brisa Marina', descripcion='Fragancia unisex acuática con notas cítricas.',
+                  precio=39.99, stock=35, categoria_id=cat_unisex.id),
+        Producto(nombre='Ámbar Místico', descripcion='Ámbar, sándalo y vainilla en una fragancia unisex envolvente.',
+                  precio=57.90, stock=12, categoria_id=cat_unisex.id),
+    ]
+    db.session.add_all(productos)
 
     # Usuarios
-    admin = Usuario(nombre='Administrador', email='admin@tienda.com', rol='admin')
+    admin = Usuario(nombre='Administrador', email='admin@scenthub.com', rol='admin')
     admin.set_password('admin123')
 
     cliente = Usuario(nombre='Juan Pérez', email='juan@email.com', rol='cliente')
@@ -30,4 +44,4 @@ with app.app_context():
     db.session.add_all([admin, cliente])
     db.session.commit()
 
-    print("✅ Datos de prueba insertados correctamente")
+    print("Datos de ScentHub insertados correctamente")
