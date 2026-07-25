@@ -1,0 +1,94 @@
+/* ScentHub — estilos propios derivados de Bootstrap */
+
+:root {
+  --sh-black: #1a1512;
+  --sh-gold: #c9a24b;
+  --sh-gold-light: #e8d5a3;
+  --sh-cream: #faf6ef;
+}
+
+body {
+  background-color: var(--sh-cream);
+  color: #2b2620;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+/* Navbar */
+.navbar.bg-dark {
+  background-color: var(--sh-black) !important;
+  border-bottom: 2px solid var(--sh-gold);
+}
+.navbar-brand {
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--sh-gold) !important;
+  font-weight: 700;
+}
+.navbar .nav-link {
+  color: #f2ece0 !important;
+}
+.navbar .nav-link:hover {
+  color: var(--sh-gold) !important;
+}
+
+/* Botones y acentos dorados */
+.btn-primary {
+  background-color: var(--sh-gold);
+  border-color: var(--sh-gold);
+  color: var(--sh-black);
+  font-weight: 600;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--sh-gold-light);
+  border-color: var(--sh-gold-light);
+  color: var(--sh-black);
+}
+.btn-outline-primary {
+  color: #96742c;
+  border-color: var(--sh-gold);
+}
+.btn-outline-primary:hover {
+  background-color: var(--sh-gold);
+  border-color: var(--sh-gold);
+  color: var(--sh-black);
+}
+.text-primary {
+  color: #96742c !important;
+}
+
+/* Hero de inicio */
+.bg-dark.rounded-3 {
+  background: linear-gradient(135deg, var(--sh-black), #3a2f26) !important;
+  border: 1px solid var(--sh-gold);
+}
+
+/* Tarjetas de producto */
+.card {
+  border: 1px solid #e6dfd0;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 .5rem 1rem rgba(26, 21, 18, .12) !important;
+}
+
+/* Sidebar del panel admin */
+.admin-sidebar .list-group-item.active {
+  background-color: var(--sh-black);
+  border-color: var(--sh-black);
+  color: var(--sh-gold);
+}
+
+/* Footer */
+.sh-footer {
+  background-color: var(--sh-black);
+  color: #cfc6b8;
+}
+.sh-footer a {
+  color: var(--sh-gold);
+  text-decoration: none;
+}
+.sh-footer a:hover {
+  text-decoration: underline;
+}
