@@ -22,10 +22,6 @@ dist/
 instance/
 .webassets-cache
 
-# Imágenes subidas por usuarios (mantener carpeta con .gitkeep, ignorar contenido subido)
-app/static/img/*
-!app/static/img/.gitkeep
-
 # Bases de datos locales
 *.sqlite3
 *.db
