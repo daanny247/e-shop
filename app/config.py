@@ -4,14 +4,43 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
+
 class Config:
-    SECRET_KEY=os.getenv('SECRET_KEY', 'dev-secret')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret')
     raw_password = os.getenv('DB_PASSWORD', '')
     safe_password = quote_plus(raw_password)
-    
-    #Configuracion de la DB
+
+    # Configuracion de la DB
     SQLALCHEMY_DATABASE_URI = (
-        f"mysql+pymysql://{os.getenv('DB_USER')}:{safe_password}"  # <-- AQUÍ cambiamos a safe_password
-        f"@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}"
+        f"mysql+pymysql://{os.getenv('DB_USER')}:{safe_password}"
+        f"@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}?charset=utf8mb4"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Subida de imagenes de productos
+    UPLOAD_FOLDER = os.path.join(BASE_DIR, 'app', 'static', 'img')
+    ALLOWED_IMAGE_EXTENSIONS = {'jpg', 'jpeg', 'webp'}
+    MAX_CONTENT_LENGTH = 2 * 1024 * 1024  # 2 MB
+
+    DEBUG = False
+
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+
+class ProductionConfig(Config):
+    DEBUG = False
+
+
+config_by_name = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig,
+}
+
+
+def get_config():
+    env = os.getenv('FLASK_ENV', 'development')
+    return config_by_name.get(env, DevelopmentConfig)

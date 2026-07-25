@@ -1,8 +1,10 @@
+from datetime import datetime
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from app.config import Config
+from app.config import get_config
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -10,7 +12,7 @@ login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(get_config())
     
     db.init_app(app)
     migrate.init_app(app, db)
@@ -38,6 +40,10 @@ def create_app():
     app.register_blueprint(public_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(admin_bp, url_prefix='/admin')
+
+    @app.context_processor
+    def inject_anio_actual():
+        return {'anio_actual': datetime.now().year}
 
     return app
     
