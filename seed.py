@@ -4,6 +4,11 @@ from app.models import Usuario, Categoria, Producto
 app = create_app()
 
 with app.app_context():
+    if Categoria.query.first() is not None:
+        print("La base de datos ya tiene categorías cargadas; no se vuelve a sembrar.")
+        print("Si quieres datos limpios, vacía las tablas primero.")
+        raise SystemExit(0)
+
     # Categorías
     cat_hombre  = Categoria(nombre='Hombre',  descripcion='Fragancias masculinas')
     cat_mujer   = Categoria(nombre='Mujer',   descripcion='Fragancias femeninas')
