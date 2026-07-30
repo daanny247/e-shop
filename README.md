@@ -106,6 +106,41 @@ Danny Alexander Peñaherrera Cárdenas
    Se recomienda ejecutar Gunicorn detrás de un proxy inverso (Nginx) y
    como servicio administrado (systemd, Supervisor, etc.).
 
+## Despliegue en Railway
+
+Railway detecta automáticamente que es una app Python (usa Nixpacks) y
+respeta el `Procfile` incluido en la raíz del proyecto para saber cómo
+arrancarla con Gunicorn.
+
+1. Entrar a [railway.app](https://railway.app) e iniciar sesión con GitHub.
+2. **New Project → Deploy from GitHub repo** y elegir este repositorio.
+3. **+ New → Database → Add MySQL** dentro del mismo proyecto, para tener
+   una base de datos administrada por Railway.
+4. En el servicio de la aplicación (no el de MySQL), ir a la pestaña
+   **Variables** y agregar:
+   - `FLASK_ENV` = `production`
+   - `SECRET_KEY` = una clave aleatoria y única
+   - `DATABASE_URL` = `${{MySQL.MYSQL_URL}}` (referencia directa a las
+     credenciales del servicio MySQL que Railway ya generó; no hay que
+     copiar contraseñas a mano)
+5. Con la [Railway CLI](https://docs.railway.app/guides/cli) o la pestaña
+   **Shell** del servicio, ejecutar una sola vez la migración y el seed:
+
+   ```bash
+   railway run flask db upgrade
+   railway run python seed.py
+   ```
+
+6. Railway asigna automáticamente un dominio público (`*.up.railway.app`)
+   en la pestaña **Settings → Networking → Generate Domain**.
+
+**Limitación a tener en cuenta:** el sistema de archivos de Railway es
+efímero — las imágenes subidas por el panel admin *después* del deploy se
+pierden si el servicio se reinicia o se vuelve a desplegar. Para la
+entrega, subir las imágenes de los productos vía `seed.py` (como ya se
+hace en este proyecto) antes de la demo, en vez de subirlas en vivo desde
+el panel admin.
+
 ## Estructura del proyecto
 
 ```
